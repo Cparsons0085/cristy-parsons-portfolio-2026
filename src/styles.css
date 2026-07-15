@@ -653,31 +653,74 @@ h3 {
     var(--glass);
 }
 
-.project-preview {
+.glass-preview {
+  position: relative;
+  isolation: isolate;
   display: grid;
   place-items: center;
-  min-height: 8rem;
+  height: clamp(20rem, 28vw, 25rem);
   margin-bottom: 1rem;
+  overflow: hidden;
   border: 1px solid rgba(243, 196, 232, 0.24);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 48% 42%, rgba(232, 183, 221, 0.28), transparent 28%),
+    radial-gradient(circle at 48% 42%, rgba(232, 183, 221, 0.16), transparent 32%),
     linear-gradient(145deg, rgba(143, 207, 234, 0.08), rgba(5, 4, 8, 0.8));
   box-shadow:
     inset 0 0 30px rgba(161, 125, 156, 0.12),
     0 0 22px rgba(161, 125, 156, 0.14);
 }
 
-.project-preview span {
-  color: rgba(255, 247, 252, 0.9);
-  font-size: 3.4rem;
-  font-weight: 900;
+.glass-preview::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 24%),
+    radial-gradient(circle at 50% 50%, transparent 42%, rgba(8, 6, 12, 0.24) 100%);
+  pointer-events: none;
+  content: "";
+}
+
+.glass-preview > div,
+.glass-preview canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.glass-preview > div {
+  transform: scale(1.08);
+  transform-origin: center;
+}
+
+.glass-preview-badge {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  z-index: 3;
+  border: 1px solid rgba(243, 196, 232, 0.3);
+  border-radius: 999px;
+  padding: 0.42rem 0.72rem;
+  color: rgba(255, 247, 252, 0.88);
+  background: rgba(8, 6, 12, 0.62);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    0 0 16px rgba(161, 125, 156, 0.18);
+  backdrop-filter: blur(10px);
+  font-size: 0.72rem;
+  font-weight: 800;
   letter-spacing: 0.08em;
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.45),
-    0 0 16px rgba(243, 196, 232, 0.36),
-    0 12px 24px rgba(0, 0, 0, 0.58);
-  transform: perspective(360px) rotateX(16deg) rotateY(-12deg);
+  text-transform: uppercase;
+  pointer-events: none;
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.glass-preview.is-interacted .glass-preview-badge {
+  opacity: 0;
+  transform: translateY(0.35rem);
 }
 
 .project-card:hover,
@@ -1095,6 +1138,10 @@ footer p {
 @media (max-width: 700px) {
   .hero {
     width: min(100% - 1.25rem, 1280px);
+  }
+
+  .glass-preview {
+    height: clamp(15rem, 58vw, 17.5rem);
   }
 
   .hero-center {
