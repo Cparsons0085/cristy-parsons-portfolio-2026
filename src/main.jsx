@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import GlassTubePreview from './components/GlassTubePreview.jsx';
 import './styles.css';
 
 const navLinks = [
@@ -11,7 +12,8 @@ const navLinks = [
 
 const heroActions = [
   { label: 'Live Projects', href: '#projects' },
-  { label: 'GIS Portfolio', href: '#gis' },
+  { label: 'GIS Portfolio', href: 'https://cristy-parsons-geospatial-portfolio-kctcs.hub.arcgis.com/',
+    external: true, },
   { label: 'Resume', href: '#resume' },
 ];
 
@@ -45,14 +47,14 @@ const projects = [
     secondary: 'View Project',
   },
   {
-    title: '3D Glass Tube Text',
+    title: 'Cristy.codes 3D Logo',
     description:
-      'An interactive 3D glass text experiment exploring depth, transparency, lighting, and motion for a polished web visual.',
-    stack: 'Three.js, React Three Fiber, GSAP, Spline/3D assets',
-    primary: 'View Project',
-    secondary: 'View Code',
-    preview: '3D',
-  },
+      'Interactive 3D glass-and-neon logo built in Spline using layered custom paths, glass materials, lighting, bloom, and subtle floating motion.',
+    stack: 'Spline, 3D Design, SVG Paths, Materials, Lighting, Motion',
+    primary: 'Live Preview',
+    secondary: 'View Project',
+    hasSplinePreview: true,
+},
 ];
 
 const skills = [
@@ -228,7 +230,7 @@ function Hero() {
         </p>
         <div className="hero-actions" aria-label="Portfolio actions">
           {heroActions.map((action) => (
-            <a className="button" key={action.label} href={action.href}>
+            <a className="button" key={action.label} href={action.href} target={action.external ? '_blank' : '_self'} rel={action.external ? 'noopener noreferrer' : undefined}>
               {action.label}
             </a>
           ))}
@@ -295,7 +297,7 @@ function ProjectCard({ project, activeCard, setActiveCard }) {
 
   return (
     <article
-      className={`glass-card project-card code-card${project.preview ? ' project-card-featured' : ''}${cardHandlers.className}`}
+      className={`glass-card project-card code-card${project.hasSplinePreview ? ' project-card-featured' : ''}${cardHandlers.className}`}
       tabIndex="0"
       onClick={cardHandlers.onClick}
       onKeyDown={cardHandlers.onKeyDown}
@@ -303,10 +305,8 @@ function ProjectCard({ project, activeCard, setActiveCard }) {
     >
       <CodeRain />
       <div className="card-content">
-        {project.preview && (
-          <div className="project-preview" aria-hidden="true">
-            <span>{project.preview}</span>
-          </div>
+        {project.hasSplinePreview && (
+          <GlassTubePreview />
         )}
         <div>
           <h3>{project.title}</h3>
